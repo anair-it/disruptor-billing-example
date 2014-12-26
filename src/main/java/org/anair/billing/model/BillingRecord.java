@@ -6,17 +6,17 @@ public class BillingRecord implements Serializable {
 
 	private static final long serialVersionUID = 3299746082013341934L;
 	
-	private int billingId;
+	private long billingId;
 	private boolean billable;
 	private int quantity;
 	private String billableArtifactName;
 	private String customerName;
 	
 	
-	public int getBillingId() {
+	public long getBillingId() {
 		return billingId;
 	}
-	public void setBillingId(int billingId) {
+	public void setBillingId(long billingId) {
 		this.billingId = billingId;
 	}
 	public boolean isBillable() {

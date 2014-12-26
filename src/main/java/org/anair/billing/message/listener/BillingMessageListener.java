@@ -3,7 +3,6 @@ package org.anair.billing.message.listener;
 import org.anair.billing.model.BillingRecord;
 import org.anair.disruptor.publisher.EventPublisher;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 
 public class BillingMessageListener {
@@ -12,19 +11,19 @@ public class BillingMessageListener {
 	private EventPublisher<BillingRecord> billingEventPublisher;
 	
 	public void inMessage(String number){
-		if(StringUtils.isBlank(number) || !NumberUtils.isDigits(number.trim())){
-			LOG.error("Enter only integer number");
+		if(StringUtils.isBlank(number) || !StringUtils.isNumeric(number.trim())){
+			LOG.error("Enter a valid long number");
 			return;
 		}
-		int inboundMessageCount = Integer.parseInt(number.trim());
-		for(int i=0;i<inboundMessageCount;i++){
-			BillingRecord billingRecord = unmarshallBillingRecord(i);
+		long inboundMessageCount = Long.parseLong(number.trim());
+		for(long l=0;l<inboundMessageCount;l++){
+			BillingRecord billingRecord = unmarshallBillingRecord(l);
 			billingEventPublisher.publish(billingRecord);
 		}
 		LOG.debug("Processed "+ inboundMessageCount + " inbound billing records");
 	}
 	
-	private BillingRecord unmarshallBillingRecord(int i){
+	private BillingRecord unmarshallBillingRecord(long i){
 		BillingRecord billingRecord = new BillingRecord();
 		billingRecord.setBillable(true);
 		billingRecord.setBillableArtifactName("artifact name " + i);
@@ -34,7 +33,7 @@ public class BillingMessageListener {
 		}else{
 			billingRecord.setCustomerName("customer name " + i);
 		}
-		billingRecord.setQuantity(i+10);
+		billingRecord.setQuantity(10);
 		return billingRecord;
 	}
 
