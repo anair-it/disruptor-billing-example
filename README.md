@@ -1,6 +1,6 @@
 Spring managed LMAX Disruptor Example project
 ==================
-This project uses [disruptor-spring-manager](../disruptor-spring-manager) to create disruptor spring beans and perform message transactions. 
+This project uses [disruptor-spring-manager](https://github.com/anair-it/disruptor-spring-manager) to create disruptor spring beans and perform message transactions. 
 The project uses an embedded tomcat server to kick start the application using maven. Integration with IBM Websphere MQ is required to run this project. Ofcourse you can make minor modifications to get this running against ActiveMQ etc.      
 
 The example uses a disruptor bean to process billing records.
@@ -95,7 +95,7 @@ Components
 5. [BillingEventTranslator](src/main/java/org/anair/billing/disruptor/eventtranslator/BillingEventTranslator.java) actually puts the data in ring buffer   
 6. [Event Processors/consumers](src/main/java/org/anair/billing/disruptor/eventprocessor) consume off the ring buffer and can perform parallel operations on the data    
 4. [BillingMessageListener](src/main/java/org/anair/billing/message/listener/BillingMessageListener.java) receives the MQ message and calls BillingEventPublisher.       
-5. Check out [spring configuration](src/main/webapp/WEB-INF) for all spring configuration                      
+5. Check out [spring configuration files](src/main/webapp/WEB-INF) to view spring bean configuration                      
 
 Run it
 ----
