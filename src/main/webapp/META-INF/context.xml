@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
 
-	<Resource CHAN="TO.TRACE" HOST="localhost" PORT="1416" QMGR="COMBRQM1"
+	<Resource CHAN="TO.CHANNEL" HOST="localhost" PORT="1416" QMGR="QM1"
 		TRAN="1" auth="Container" description=""
 		factory="com.ibm.mq.jms.MQConnectionFactoryFactory" name="qConnectionFactory"
 		type="com.ibm.mq.jms.MQConnectionFactory" />
