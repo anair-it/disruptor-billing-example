@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
-
-	<Resource CHAN="TO.CHANNEL" HOST="localhost" PORT="1416" QMGR="QM1"
+	<Resource CHAN="TO.CHANNEL" HOST="localhost" PORT="1414" QMGR="QM1" 
 		TRAN="1" auth="Container" description=""
 		factory="com.ibm.mq.jms.MQConnectionFactoryFactory" name="qConnectionFactory"
 		type="com.ibm.mq.jms.MQConnectionFactory" />
-
+		
 	<Resource QU="IN.QUEUE" TC="0" auth="Container" description=""
 		factory="com.ibm.mq.jms.MQQueueFactory" name="inQueue" type="com.ibm.mq.jms.MQQueue" />
 

@@ -66,18 +66,23 @@
 	<bean id="journalBillingEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.JournalBillingEventProcessor"
 		p:billingService-ref="billingService"/>
+	
 	<bean id="billingValidationEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.BillingValidationEventProcessor"
 		p:billingService-ref="billingService"/>
+	
 	<bean id="billingOutboundFormattingEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.BillingOutboundFormattingEventProcessor"
 		p:billingService-ref="billingService"/>
+	
 	<bean id="billingBusinessEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.BillingBusinessEventProcessor"
 		p:billingService-ref="billingService"/>
+	
 	<bean id="corporateBillingBusinessEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.CorporateBillingBusinessEventProcessor"
 		p:billingService-ref="billingService"/>
+	
 	<bean id="customerSpecificBillingBusinessEventProcessor"
 		class="org.anair.billing.disruptor.eventprocessor.CustomerSpecificBillingBusinessEventProcessor"
 		p:billingService-ref="billingService"/>

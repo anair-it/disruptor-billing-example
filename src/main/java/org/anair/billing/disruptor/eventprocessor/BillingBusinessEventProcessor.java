@@ -17,7 +17,7 @@ public class BillingBusinessEventProcessor implements EventHandler<BillingRecord
 			throws Exception {
 		LOG.trace("Sequence: " + sequence + ". Going to process "+ billingRecord.toString());
 		billingService.processBillingRecord(billingRecord);
-		if(sequence%10==0){
+		if(sequence%100==0){
 			LOG.info("Sequence: " + sequence + ". "+ billingRecord.toString());
 		}
 	}
