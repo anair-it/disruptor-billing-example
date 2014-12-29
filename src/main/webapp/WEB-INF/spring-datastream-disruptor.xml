@@ -4,18 +4,13 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
 <!-- 
-	                                       |                                    |                                        |
-	                                       |                                    |                                        |
-	                                       |                                    |      processADataStreamEventProcessor  |
-	                                       |                                    |     /                                  |
-	                                       |                                    |    /                                   |
- dataStreamEventPublisher -> Ring Buffer ->|   - journalBillingEventProcessor   |                                        | -formatDataStreamEventProcessor
-	                                       |                                    |    \                                   |
-	                                       |                                    |     \                                  |
-	                                       |                                    |      processBDataStreamEventProcessor  |
-	                                       |                                    |                                        |
-	                                       |                                    |                                        |
-
+	                                          |                                  |    processADataStreamEventProcessor  |
+	                                          |                                  |   /                                  |
+	                                          |                                  |  /                                   |
+	dataStreamEventPublisher -> Ring Buffer ->| - journalBillingEventProcessor   |                                      | -formatDataStreamEventProcessor
+	                                          |                                  |  \                                   |
+	                                          |                                  |   \                                  |
+	                                          |                                  |    processBDataStreamEventProcessor  |
  -->
 
 	<bean id="dataStreamDisruptor" class="org.anair.disruptor.DisruptorConfig"

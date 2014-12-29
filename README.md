@@ -25,66 +25,27 @@ Setting up your environment
 Configuring the disruptor
 ----------
 
-The billing disruptor spring configuration is based on the Consumer Dependency diamond graph that looks like this:
+[Billing disruptor spring configuration](src/main/webapp/WEB-INF/spring-billing-disruptor.xml) is based on the Consumer Dependency diamond graph that looks like this:
 
-	                                       |                                       |                                                    |
-	                                       |                                       |                                                    |
-	                                       |      journalBillingEventProcessor     |      billingBusinessEventProcessor                 |
-	                                       |     /                                 |     /                                              |
-	                                       |    /                                  |    /                                               |
-	billingEventPublisher -> Ring Buffer ->|   -                                   |   -  corporateBillingBusinessEventProcessor        | -billingOutboundFormattingEventProcessor
-	                                       |    \                                  |    \                                               |
-	                                       |     \                                 |     \                                              |
-	                                       |      billingValidationEventProcessor  |      customerSpecificBillingBusinessEventProcessor |
-	                                       |                                       |                                                    |
-	                                       |                                       |                                                    |
+	                                       |     journalBillingEventProcessor     |     billingBusinessEventProcessor                 |
+	                                       |    /                                 |    /                                              |
+	                                       |   /                                  |   /                                               |
+	billingEventPublisher -> Ring Buffer ->|  -                                   |  -  corporateBillingBusinessEventProcessor        | -billingOutboundFormattingEventProcessor
+	                                       |   \                                  |   \                                               |
+	                                       |    \                                 |    \                                              |
+	                                       |     billingValidationEventProcessor  |     customerSpecificBillingBusinessEventProcessor |
+|
 
+---------
+[Data Stream disruptor spring configuration](src/main/webapp/WEB-INF/spring-datastream-disruptor.xml) is based on the Consumer Dependency diamond graph that looks like this:
 
-Spring configuration:    
-
-	<bean id="billingDisruptor" class="org.anair.disruptor.DisruptorConfig"
-		init-method="init" destroy-method="controlledShutdown">
-
-		<property name="threadName" value="billingThread" />
-		<property name="eventFactory">
-			<bean
-				class="org.anair.billing.disruptor.eventfactory.BillingEvent" />
-		</property>
-		<property name="eventHandlerChain">
-			<array>
-				<bean class="org.anair.disruptor.EventHandlerChain" scope="prototype">
-					<constructor-arg name="currentEventHandlers">
-						<array value-type="com.lmax.disruptor.EventHandler">
-							<ref bean="journalBillingEventProcessor" />
-							<ref bean="billingValidationEventProcessor" />
-						</array>
-					</constructor-arg>
-					<constructor-arg name="nextEventHandlers">
-						<array value-type="com.lmax.disruptor.EventHandler">
-							<ref bean="billingBusinessEventProcessor" />
-							<ref bean="corporateBillingBusinessEventProcessor" />
-							<ref bean="customerSpecificBillingBusinessEventProcessor" />
-						</array>
-					</constructor-arg>
-				</bean>
-				
-				<bean class="org.anair.disruptor.EventHandlerChain" scope="prototype">
-					<constructor-arg name="currentEventHandlers">
-						<array value-type="com.lmax.disruptor.EventHandler">
-							<ref bean="billingBusinessEventProcessor" />
-							<ref bean="corporateBillingBusinessEventProcessor" />
-							<ref bean="customerSpecificBillingBusinessEventProcessor" />
-						</array>
-					</constructor-arg>
-					<constructor-arg name="nextEventHandlers">
-						<array value-type="com.lmax.disruptor.EventHandler">
-							<ref bean="billingOutboundFormattingEventProcessor" />
-						</array>
-					</constructor-arg>
-				</bean>
-			</array>
-		</property>
-	</bean>
+	                                          |                                  |    processADataStreamEventProcessor  |
+	                                          |                                  |   /                                  |
+	                                          |                                  |  /                                   |
+	dataStreamEventPublisher -> Ring Buffer ->| - journalBillingEventProcessor   |                                      | -formatDataStreamEventProcessor
+	                                          |                                  |  \                                   |
+	                                          |                                  |   \                                  |
+	                                          |                                  |    processBDataStreamEventProcessor  |
 
 
 Components
