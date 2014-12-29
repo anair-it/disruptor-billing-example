@@ -5,12 +5,12 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans 
 						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-	<bean id="billingListenerContainer"
-		class="org.springframework.jms.listener.DefaultMessageListenerContainer"
+	<!-- Billing message listener configuration -->
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"
 		p:concurrentConsumers="1"
 		p:maxConcurrentConsumers="1"
 		p:connectionFactory-ref="qConnectionFactory"
-		p:destination-ref="inQueue"
+		p:destination-ref="billingInQueue"
 		p:messageListener-ref="billingListenerAdapter" />
 	
 	<bean id="billingListenerAdapter"
@@ -21,5 +21,23 @@
 	<bean id="billingMessageListener"
 		class="org.anair.billing.message.listener.BillingMessageListener"
 		p:eventPublisher-ref="billingEventPublisher"/>
+		
+		
+	<!-- DataStream message listener configuration -->	
+	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"
+		p:concurrentConsumers="1"
+		p:maxConcurrentConsumers="1"
+		p:connectionFactory-ref="qConnectionFactory"
+		p:destination-ref="dataStreamInQueue"
+		p:messageListener-ref="dataStreamListenerAdapter" />
+	
+	<bean id="dataStreamListenerAdapter"
+		class="org.springframework.jms.listener.adapter.MessageListenerAdapter"
+		p:delegate-ref="dataStreamMessageListener"
+		p:defaultListenerMethod="inMessage" />
+	
+	<bean id="dataStreamMessageListener"
+		class="org.anair.datastream.message.listener.DataStreamMessageListener"
+		p:eventPublisher-ref="dataStreamEventPublisher"/>	
 
 </beans>

@@ -3,7 +3,7 @@ Spring managed LMAX Disruptor Example project
 This project uses [disruptor-spring-manager](https://github.com/anair-it/disruptor-spring-manager) to create disruptor spring beans and perform message transactions. 
 The project uses an embedded tomcat server to kick start the application using maven. Integration with IBM Websphere MQ is required to run this project. Ofcourse you can make minor modifications to get this running against ActiveMQ etc.      
 
-The example uses a disruptor bean to process a ton of billing records.
+The example uses 2 disruptor beans. One to process billing records and another to process data streams. Both disruptors are configured as spring beans.
 
 Software pre-requisite
 --------
@@ -16,7 +16,8 @@ Software pre-requisite
 Setting up your environment
 ----
 1. Create a local queue manager. Name it as you wish.   
-2. Create a queue. Name it as your wish.     
+2. Create a billing input queue. Name it as your wish.     
+3. Create a data stream input queue. Name it as your wish.         
 3. Start queue manager    
 4. Update [tomcat context](src/main/webapp/META-INF/context.xml) with the queue connection info and queue name.  
 
@@ -24,7 +25,7 @@ Setting up your environment
 Configuring the disruptor
 ----------
 
-The spring configuration is based on the Consumer Dependency diamond graph that looks like this:
+The billing disruptor spring configuration is based on the Consumer Dependency diamond graph that looks like this:
 
 	                                       |                                       |                                                    |
 	                                       |                                       |                                                    |
@@ -95,7 +96,9 @@ Components
 5. [BillingEventTranslator](src/main/java/org/anair/billing/disruptor/eventtranslator/BillingEventTranslator.java) actually puts the data in ring buffer   
 6. [Event Processors/consumers](src/main/java/org/anair/billing/disruptor/eventprocessor) consume off the ring buffer and can perform parallel operations on the data    
 4. [BillingMessageListener](src/main/java/org/anair/billing/message/listener/BillingMessageListener.java) receives the MQ message and calls BillingEventPublisher.       
-5. Check out [spring configuration files](src/main/webapp/WEB-INF) to view spring bean configuration                      
+5. [Billing Disruptor bean configuration](src/main/webapp/WEB-INF/spring-billing-disruptor.xml)
+6. [Data stream Disruptor bean configuration](src/main/webapp/WEB-INF/spring-datastream-disruptor.xml)                             
+7. [Spring configuration files](src/main/webapp/WEB-INF)                      
 
 Run it
 ----
@@ -110,8 +113,8 @@ You will see the following log messages that prints the disruptor configuration 
 	{BillingBusinessEventProcessor | CorporateBillingBusinessEventProcessor | CustomerSpecificBillingBusinessEventProcessor} -> {BillingOutboundFormattingEventProcessor}
 	15:58:17.289 localhost-startStop-1 INFO [JmxDisruptor] disruptor-spring:name=billingDisruptor,type=disruptor MBean defined for Disruptors.
 	
-2.Drop a message to the input queue. The message should be a long that relays the number of billing messages to be generated and processed.
-If you put in message of "20", 20 billing records will be processed and here is the log output summary:
+2.Drop a message to any/both input queue. The message should be a long that relays the number of billing messages to be generated and processed.
+If you put in message of "20", 20 messages will be processed and here is the log output summary:
 
 	16:11:37.189 billingListenerContainer-1 INFO [BillingEventTranslator] Published Id [0] to sequence: 0
 	16:11:37.189 billingListenerContainer-1 INFO [BillingEventTranslator] Published Id [10] to sequence: 10

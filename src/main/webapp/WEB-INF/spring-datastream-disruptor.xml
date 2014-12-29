@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+<!-- 
+	                                       |                                    |                                        |
+	                                       |                                    |                                        |
+	                                       |                                    |      processADataStreamEventProcessor  |
+	                                       |                                    |     /                                  |
+	                                       |                                    |    /                                   |
+ dataStreamEventPublisher -> Ring Buffer ->|   - journalBillingEventProcessor   |                                        | -formatDataStreamEventProcessor
+	                                       |                                    |    \                                   |
+	                                       |                                    |     \                                  |
+	                                       |                                    |      processBDataStreamEventProcessor  |
+	                                       |                                    |                                        |
+	                                       |                                    |                                        |
+
+ -->
+
+	<bean id="dataStreamDisruptor" class="org.anair.disruptor.DisruptorConfig"
+		init-method="init" destroy-method="controlledShutdown">
+
+		<property name="threadName" value="dataStreamThread" />
+		<property name="eventFactory">
+			<bean
+				class="org.anair.datastream.disruptor.eventfactory.DataStreamEvent" />
+		</property>
+		<property name="eventHandlerChain">
+			<array>
+				<bean class="org.anair.disruptor.EventHandlerChain" scope="prototype">
+					<constructor-arg name="currentEventHandlers">
+						<array value-type="com.lmax.disruptor.EventHandler">
+							<ref bean="journalDataStreamEventProcessor" />
+						</array>
+					</constructor-arg>
+					<constructor-arg name="nextEventHandlers">
+						<array value-type="com.lmax.disruptor.EventHandler">
+							<ref bean="processADataStreamEventProcessor" />
+							<ref bean="processBDataStreamEventProcessor" />
+						</array>
+					</constructor-arg>
+				</bean>
+				
+				<bean class="org.anair.disruptor.EventHandlerChain" scope="prototype">
+					<constructor-arg name="currentEventHandlers">
+						<array value-type="com.lmax.disruptor.EventHandler">
+							<ref bean="processADataStreamEventProcessor" />
+							<ref bean="processBDataStreamEventProcessor" />
+						</array>
+					</constructor-arg>
+					<constructor-arg name="nextEventHandlers">
+						<array value-type="com.lmax.disruptor.EventHandler">
+							<ref bean="formatDataStreamEventProcessor" />
+						</array>
+					</constructor-arg>
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<!-- Event Processors/Consumers -->
+	<bean id="journalDataStreamEventProcessor"
+		class="org.anair.datastream.disruptor.eventprocessor.JournalDataStreamEventProcessor"
+		p:dataStreamService-ref="dataStreamService"/>
+	
+	<bean id="processADataStreamEventProcessor"
+		class="org.anair.datastream.disruptor.eventprocessor.ProcessADataStreamEventProcessor"
+		p:dataStreamService-ref="dataStreamService"/>
+		
+	<bean id="processBDataStreamEventProcessor"
+		class="org.anair.datastream.disruptor.eventprocessor.ProcessBDataStreamEventProcessor"
+		p:dataStreamService-ref="dataStreamService"/>
+		
+	<bean id="formatDataStreamEventProcessor"
+		class="org.anair.datastream.disruptor.eventprocessor.FormatDataStreamEventProcessor"
+		p:dataStreamService-ref="dataStreamService"/>		
+		
+
+	<!-- Publisher -->
+	<bean id="dataStreamEventPublisher"
+		class="org.anair.datastream.disruptor.publisher.DataStreamEventPublisher"
+		p:disruptorConfig-ref="dataStreamDisruptor" />	
+
+</beans>
