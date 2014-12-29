@@ -34,7 +34,7 @@ Configuring the disruptor
 	                                       |   \                                  |   \                                               |
 	                                       |    \                                 |    \                                              |
 	                                       |     billingValidationEventProcessor  |     customerSpecificBillingBusinessEventProcessor |
-|
+
 
 ---------
 [Data Stream disruptor spring configuration](src/main/webapp/WEB-INF/spring-datastream-disruptor.xml) is based on the Consumer Dependency diamond graph that looks like this:
