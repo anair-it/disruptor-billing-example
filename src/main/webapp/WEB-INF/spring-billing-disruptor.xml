@@ -14,7 +14,7 @@
 
  -->
 
-	<bean id="billingDisruptor" class="org.anair.disruptor.DisruptorConfig"
+	<bean id="billingDisruptor" class="org.anair.disruptor.DefaultDisruptorConfig"
 		init-method="init" destroy-method="controlledShutdown">
 
 		<property name="threadName" value="billingThread" />
