@@ -79,18 +79,18 @@ If you put in message of "20", 20 messages will be processed and here is the log
 
 	16:11:37.189 billingListenerContainer-1 INFO [BillingEventTranslator] Published Id [0] to sequence: 0
 	16:11:37.189 billingListenerContainer-1 INFO [BillingEventTranslator] Published Id [10] to sequence: 10
-	16:11:37.199 billingThread INFO [BillingValidationEventProcessor] Sequence: 0. Id [0]
-	16:11:37.269 billingThread INFO [BillingValidationEventProcessor] Sequence: 10. Id [10]
-	16:11:37.199 billingThread INFO [JournalBillingEventProcessor] Sequence: 0. Id [0]
-	16:11:37.289 billingThread INFO [BillingBusinessEventProcessor] Sequence: 0. Id [0]
-	16:11:37.289 billingThread INFO [CustomerSpecificBillingBusinessEventProcessor] Sequence: 0. Id [0]
-	16:11:37.299 billingThread INFO [CorporateBillingBusinessEventProcessor] Sequence: 0. Id [0]
-	16:11:37.299 billingThread INFO [JournalBillingEventProcessor] Sequence: 10. Id [10]
-	16:11:37.309 billingThread INFO [CustomerSpecificBillingBusinessEventProcessor] Sequence: 10. Id [10]
-	16:11:37.309 billingThread INFO [BillingBusinessEventProcessor] Sequence: 10. Id [10]
-	16:11:37.309 billingThread INFO [BillingOutboundFormattingEventProcessor] Sequence: 0. Id [0]
-	16:11:37.309 billingThread INFO [CorporateBillingBusinessEventProcessor] Sequence: 10. Id [10]
-	16:11:37.310 billingThread INFO [BillingOutboundFormattingEventProcessor] Sequence: 10. Id [10]
+	16:11:37.199 billingThread-1 INFO [BillingValidationEventProcessor] Sequence: 0. Id [0]
+	16:11:37.269 billingThread-1 INFO [BillingValidationEventProcessor] Sequence: 10. Id [10]
+	16:11:37.199 billingThread-2 INFO [JournalBillingEventProcessor] Sequence: 0. Id [0]
+	16:11:37.289 billingThread-3 INFO [BillingBusinessEventProcessor] Sequence: 0. Id [0]
+	16:11:37.289 billingThread-4 INFO [CustomerSpecificBillingBusinessEventProcessor] Sequence: 0. Id [0]
+	16:11:37.299 billingThread-5 INFO [CorporateBillingBusinessEventProcessor] Sequence: 0. Id [0]
+	16:11:37.299 billingThread-2 INFO [JournalBillingEventProcessor] Sequence: 10. Id [10]
+	16:11:37.309 billingThread-4 INFO [CustomerSpecificBillingBusinessEventProcessor] Sequence: 10. Id [10]
+	16:11:37.309 billingThread-3 INFO [BillingBusinessEventProcessor] Sequence: 10. Id [10]
+	16:11:37.309 billingThread-6 INFO [BillingOutboundFormattingEventProcessor] Sequence: 0. Id [0]
+	16:11:37.309 billingThread-5 INFO [CorporateBillingBusinessEventProcessor] Sequence: 10. Id [10]
+	16:11:37.310 billingThread-6 INFO [BillingOutboundFormattingEventProcessor] Sequence: 10. Id [10]
 
 
 JMX
