@@ -7,7 +7,7 @@ The example uses 2 disruptor beans. One to process billing records and another t
 
 Software pre-requisite
 --------
-1. JDK 6+
+1. JDK 8+
 2. Maven 3+
 3. Git      
 4. IBM Websphere MQ server       
@@ -65,6 +65,7 @@ Run it
 ----
 1.Start tomcat server and the application    
 	
+	mvn clean package
 	mvn tomcat7:run
 You will see the following log messages that prints the disruptor configuration and dependency graph:
 

@@ -2,11 +2,12 @@ package org.anair.datastream.message.listener;
 
 import org.anair.datastream.model.DataStream;
 import org.anair.disruptor.publisher.EventPublisher;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class DataStreamMessageListener {
-	private static final Logger LOG = Logger.getLogger(DataStreamMessageListener.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DataStreamMessageListener.class);
 	
 	private EventPublisher<DataStream> dataStreamEventPublisher;
 	
@@ -20,7 +21,7 @@ public class DataStreamMessageListener {
 			DataStream dataStream = unmarshallDataStream(l);
 			dataStreamEventPublisher.publish(dataStream);
 		}
-		LOG.debug("Processed "+ inboundMessageCount + " inbound data stream records");
+		LOG.debug("Processed {} inbound data stream records", inboundMessageCount);
 	}
 	
 	private DataStream unmarshallDataStream(long i){

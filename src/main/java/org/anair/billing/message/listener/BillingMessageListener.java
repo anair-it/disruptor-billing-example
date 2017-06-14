@@ -2,11 +2,12 @@ package org.anair.billing.message.listener;
 
 import org.anair.billing.model.BillingRecord;
 import org.anair.disruptor.publisher.EventPublisher;
-import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BillingMessageListener {
-	private static final Logger LOG = Logger.getLogger(BillingMessageListener.class);
+	private static final Logger LOG = LoggerFactory.getLogger(BillingMessageListener.class);
 	
 	private EventPublisher<BillingRecord> billingEventPublisher;
 	
@@ -20,7 +21,7 @@ public class BillingMessageListener {
 			BillingRecord billingRecord = unmarshallBillingRecord(l);
 			billingEventPublisher.publish(billingRecord);
 		}
-		LOG.debug("Processed "+ inboundMessageCount + " inbound billing records");
+		LOG.debug("Processed {} inbound billing records", inboundMessageCount);
 	}
 	
 	private BillingRecord unmarshallBillingRecord(long i){

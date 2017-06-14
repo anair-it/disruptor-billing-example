@@ -1,13 +1,14 @@
 package org.anair.datastream.disruptor.eventtranslator;
 
 import org.anair.datastream.model.DataStream;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.lmax.disruptor.EventTranslator;
 
 public class DataStreamEventTranslator implements EventTranslator<DataStream>{
 
-	private static final Logger LOG = Logger.getLogger(DataStreamEventTranslator.class);
+	private static final Logger LOG = LoggerFactory.getLogger(DataStreamEventTranslator.class);
 	private DataStream dataStream;
 
 	public DataStreamEventTranslator(DataStream dataStream) {
@@ -23,7 +24,7 @@ public class DataStreamEventTranslator implements EventTranslator<DataStream>{
 		dataStream.setDataTarget(this.dataStream.getDataTarget());
 		
 		if(sequence%10==0){
-			LOG.info("Published " + dataStream.toString() + " to sequence: " + sequence);
+			LOG.info("Published {} to sequence: {}",dataStream.toString(), sequence);
 		}
 	}
 	
