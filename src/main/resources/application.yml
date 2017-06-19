@@ -1,0 +1,12 @@
+environment: 
+  mq:
+    host: localhost
+    port: 1417
+    queue-manager: AHSBRQM1
+    channel: TO.AHSBRQM1
+    username: mqm
+    password: 
+    receive-timeout: 2000
+    queues:
+      billing-queue: BILLING.IN.QUEUE
+      datastream-queue: DATASTREAM.IN.QUEUE

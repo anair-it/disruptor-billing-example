@@ -9,8 +9,8 @@
 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"
 		p:concurrentConsumers="1"
 		p:maxConcurrentConsumers="1"
-		p:connectionFactory-ref="qConnectionFactory"
-		p:destination-ref="billingInQueue"
+		p:connectionFactory-ref="cachingConnectionFactory"
+		p:destinationName="${environment.mq.queues.billing-queue}"
 		p:messageListener-ref="billingListenerAdapter" />
 	
 	<bean id="billingListenerAdapter"
@@ -27,8 +27,8 @@
 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"
 		p:concurrentConsumers="1"
 		p:maxConcurrentConsumers="1"
-		p:connectionFactory-ref="qConnectionFactory"
-		p:destination-ref="dataStreamInQueue"
+		p:connectionFactory-ref="cachingConnectionFactory"
+		p:destinationName="${environment.mq.queues.datastream-queue}"
 		p:messageListener-ref="dataStreamListenerAdapter" />
 	
 	<bean id="dataStreamListenerAdapter"
